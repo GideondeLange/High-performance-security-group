@@ -30,7 +30,9 @@
   --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
 }
 
-html { scroll-behavior: smooth; }
+/* scroll-behavior handled by JS with offset correction */
+html { scroll-behavior: auto; }
+
 
 body {
   font-family: var(--font);
@@ -49,6 +51,9 @@ ul { list-style: none; }
 
 /* ---- UTILS ---- */
 .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+/* Offset all sections so they clear the fixed navbar on scroll */
+section[id] { scroll-margin-top: 68px; }
 .gradient-text {
   background: linear-gradient(135deg, var(--blue-light) 0%, #a78bff 100%);
   -webkit-background-clip: text;
@@ -180,21 +185,31 @@ ul { list-style: none; }
 .nav-toggle {
   display: none;
   flex-direction: column;
+  justify-content: center;
   gap: 5px;
   padding: 8px;
   border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: background var(--transition);
 }
+.nav-toggle:hover { background: rgba(255,255,255,0.10); }
 .nav-toggle span {
   display: block;
   width: 22px;
   height: 2px;
   background: var(--text);
   border-radius: 2px;
-  transition: var(--transition);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
 }
-.nav-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-.nav-toggle.open span:nth-child(2) { opacity: 0; }
-.nav-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+/* ✅ Fixed: translateY first (move to centre) THEN rotate */
+.nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 /* ============================================================
    HERO
@@ -1349,19 +1364,33 @@ ul { list-style: none; }
 
 @media (max-width: 768px) {
   .nav-toggle { display: flex; }
+
+  /* ✅ Fixed: use opacity/visibility for smooth animation instead of display none/flex */
   .nav-links {
-    display: none;
-    position: absolute;
-    top: 68px; left: 0; right: 0;
-    background: rgba(8,9,14,0.98);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
+    display: flex;
     flex-direction: column;
     align-items: stretch;
+    position: absolute;
+    top: 68px; left: 0; right: 0;
+    background: rgba(8,9,14,0.97);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
     padding: 12px 16px 20px;
     gap: 4px;
+    /* hidden state */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
   }
-  .nav-links.open { display: flex; }
+  .nav-links.open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+    transform: translateY(0);
+  }
   .nav-link { padding: 12px 16px; border-radius: var(--radius-sm); }
   .nav-cta-btn { padding: 12px 16px; text-align: center; border-radius: var(--radius-sm); margin-top: 8px; }
 

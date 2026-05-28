@@ -3,37 +3,53 @@ import './style.css';
 /* ============================================================
    NAVBAR — scroll effect + mobile toggle
    ============================================================ */
-const navbar  = document.getElementById('navbar');
-const toggle  = document.getElementById('navToggle');
+const navbar   = document.getElementById('navbar');
+const toggle   = document.getElementById('navToggle');
 const navLinks = document.getElementById('navLinks');
+const NAV_H    = 68; // must match CSS nav-container height
 
+function closeMobileNav() {
+  navLinks.classList.remove('open');
+  toggle.classList.remove('open');
+  toggle.setAttribute('aria-expanded', 'false');
+}
+
+// Scrolled glass effect
 window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 30);
+  // ✅ Close mobile menu when user scrolls the page
+  if (navLinks.classList.contains('open')) closeMobileNav();
 }, { passive: true });
 
+// Hamburger toggle
 toggle.addEventListener('click', () => {
   const open = navLinks.classList.toggle('open');
   toggle.classList.toggle('open', open);
-  toggle.setAttribute('aria-expanded', open);
+  toggle.setAttribute('aria-expanded', String(open));
 });
 
 // Close mobile nav on link click
 navLinks.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => {
-    navLinks.classList.remove('open');
-    toggle.classList.remove('open');
-  });
+  link.addEventListener('click', () => closeMobileNav());
 });
+
+// ✅ Close mobile menu if window is resized to desktop width
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 768) closeMobileNav();
+}, { passive: true });
 
 /* ============================================================
    SMOOTH SCROLL for anchor links
    ============================================================ */
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', e => {
-    const target = document.querySelector(anchor.getAttribute('href'));
+    const href = anchor.getAttribute('href');
+    if (!href || href === '#') return;
+    const target = document.querySelector(href);
     if (target) {
       e.preventDefault();
-      const offset = 80;
+      // ✅ Use exact navbar height + small breathing gap
+      const offset = NAV_H + 12; // 68 + 12 = 80px
       const top = target.getBoundingClientRect().top + window.scrollY - offset;
       window.scrollTo({ top, behavior: 'smooth' });
     }
