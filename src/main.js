@@ -278,8 +278,23 @@ modalForm.addEventListener('submit', e => {
 const contactForm = document.getElementById('contactForm');
 contactForm.addEventListener('submit', e => {
   e.preventDefault();
-  showToast('✅ Message sent! We\'ll be in touch shortly.');
-  contactForm.reset();
+  e.stopPropagation();
+
+  // Replace form content with a success message
+  const formWrap = document.getElementById('contactForm');
+  formWrap.innerHTML = `
+    <div class="form-success">
+      <div class="form-success-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+      </div>
+      <h3>Message Sent!</h3>
+      <p>Thanks for reaching out. One of our security consultants will get back to you within <strong>2 business hours</strong>.</p>
+      <p class="form-success-sub">Need urgent assistance? Call us 24/7 on <strong>+27 (0) 11 420 9000</strong></p>
+    </div>
+  `;
 });
 
 /* ============================================================

@@ -1148,6 +1148,55 @@ section[id] { scroll-margin-top: 68px; }
 .form-group textarea { resize: vertical; min-height: 100px; }
 
 /* ============================================================
+   CONTACT FORM — SUCCESS STATE
+   ============================================================ */
+.form-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+  gap: 16px;
+  min-height: 320px;
+}
+.form-success-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(30,107,255,0.12);
+  border: 2px solid rgba(30,107,255,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+.form-success-icon svg {
+  width: 36px;
+  height: 36px;
+  stroke: var(--blue-light);
+}
+.form-success h3 {
+  font-family: var(--heading);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+.form-success p {
+  color: var(--text-2);
+  font-size: 15px;
+  max-width: 340px;
+  margin: 0;
+  line-height: 1.6;
+}
+.form-success-sub {
+  font-size: 13px !important;
+  color: var(--text-3) !important;
+  margin-top: 8px !important;
+}
+
+/* ============================================================
    FOOTER
    ============================================================ */
 .footer {
