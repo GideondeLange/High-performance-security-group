@@ -1376,7 +1376,7 @@ section[id] { scroll-margin-top: 68px; }
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
-    padding: 16px 16px 28px;
+    padding: 16px 20px 36px;
     gap: 8px;
     /* hidden state */
     opacity: 0;
@@ -1392,7 +1392,7 @@ section[id] { scroll-margin-top: 68px; }
     transform: translateY(0);
   }
   .nav-link { padding: 14px 16px; border-radius: var(--radius-sm); }
-  .nav-cta-btn { padding: 14px 16px; text-align: center; border-radius: var(--radius-sm); margin-top: 12px; }
+  .nav-cta-btn { padding: 14px 16px; text-align: center; border-radius: var(--radius-sm); margin-top: 16px; }
 
   .hero { padding: 88px 20px 60px; gap: 40px; }
   .hero-title { font-size: clamp(32px, 8vw, 52px); }
